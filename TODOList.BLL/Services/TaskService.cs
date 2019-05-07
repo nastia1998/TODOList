@@ -7,41 +7,42 @@ using System.Threading.Tasks;
 using TODOList.BLL.DTO;
 using TODOList.BLL.Interfaces;
 using TODOList.DAL.EF;
-using TODOList.DAL.Entities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Task = TODOList.DAL.Entities.Task;
 
 namespace TODOList.BLL.Services
 {
-    public class TodoListService : ITodoListService
+    public class TaskService : ITaskService
     {
         IUnitOfWork Database { get; set; }
 
-        public TodoListService(IUnitOfWork uow)
+        public TaskService(IUnitOfWork uow)
         {
             Database = uow;
         }
 
-        public void MakeTodoList(TodoListDTO listDTO)
+        public void MakeTask(TaskDTO taskDTO)
         {
             throw new NotImplementedException();
         }
 
-        public TodoListDTO GetTodoList(int? id)
+        public TaskDTO GetTask(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TodoListDTO> GetTodoLists()
+        public IEnumerable<TaskDTO> GetTasks()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TodoList, TodoListDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<TodoList>, List<TodoListDTO>>(Database.TodoLists.GetAll());
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Task, TaskDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<Task>, List<TaskDTO>>(Database.Tasks.GetAll());
         }
 
-        public void UpdateTodoList(TodoListDTO listDTO)
+        public void UpdateTask(TaskDTO taskDTO)
         {
             throw new NotImplementedException();
         }
 
-        public void DelTodoList(int? id)
+        public void DelTask(int? id)
         {
             throw new NotImplementedException();
         }
