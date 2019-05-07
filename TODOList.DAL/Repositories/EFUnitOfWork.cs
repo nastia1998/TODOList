@@ -15,6 +15,7 @@ namespace TODOList.DAL.Repositories
         private TodoListRepository listRepository;
         private TaskRepository taskRepository;
         private StepRepository stepRepository;
+        private UserRepository userRepository;
 
         //public EFUnitOfWork()
         //{
@@ -57,6 +58,17 @@ namespace TODOList.DAL.Repositories
             }
         }
 
+        public IRepository<User> Users
+        {
+            get
+            {
+                if (userRepository == null)
+                {
+                    userRepository = new UserRepository(db);
+                }
+                return userRepository;
+            }
+        }
 
         public void Save()
         {

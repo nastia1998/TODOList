@@ -14,6 +14,7 @@ namespace TODOList.DAL.EF
         public DbSet<TodoList> TodoLists { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Step> Steps { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public TODOContext(DbContextOptions<TODOContext> options) : base(options)
         {

@@ -13,6 +13,7 @@ namespace TODOList.DAL.EF
         IRepository<TodoList> TodoLists { get; }
         IRepository<Task> Tasks { get; }
         IRepository<Step> Steps { get; }
+        IRepository<User> Users { get; }
         void Save();
     }
 }
