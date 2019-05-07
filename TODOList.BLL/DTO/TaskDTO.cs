@@ -17,9 +17,5 @@ namespace TODOList.BLL.DTO
 
         public int TodoListId { get; set; }
 
-        [ForeignKey("TodoListId")]
-        public TodoList TodoList { get; set; }
-
-        public ICollection<Step> Steps { get; set; }
     }
 }
