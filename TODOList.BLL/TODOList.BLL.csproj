@@ -54,6 +54,7 @@
     <Compile Include="DTO\StepDTO.cs" />
     <Compile Include="DTO\TaskDTO.cs" />
     <Compile Include="DTO\TodoListDTO.cs" />
+    <Compile Include="Interfaces\ITaskService.cs" />
     <Compile Include="Interfaces\ITodoListService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TodoListService.cs" />

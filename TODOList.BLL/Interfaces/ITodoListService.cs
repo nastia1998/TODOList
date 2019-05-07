@@ -12,6 +12,8 @@ namespace TODOList.BLL.Interfaces
         void MakeTodoList(TodoListDTO listDTO);
         TodoListDTO GetTodoList(int? id);
         IEnumerable<TodoListDTO> GetTodoLists();
+        void UpdateTodoList(TodoListDTO listDTO);
+        void DelTodoList(int? id);
         void Dispose();
     }
 }
