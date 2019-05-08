@@ -9,6 +9,8 @@ namespace TODOList.BLL.DTO
     public class TodoListDTO
     {
         public int Id { get; set; }
-        public ICollection<Task> Tasks { get; set; }
+        public int UserId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

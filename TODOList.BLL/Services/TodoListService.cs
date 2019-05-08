@@ -22,12 +22,25 @@ namespace TODOList.BLL.Services
 
         public void MakeTodoList(TodoListDTO listDTO)
         {
-            throw new NotImplementedException();
+            if (listDTO == null)
+                throw new Exception("List equals null");
+            TodoList list = new TodoList
+            {
+                UserId = listDTO.UserId,
+                Name = listDTO.Name,
+                Description = listDTO.Description
+            };
+            Database.TodoLists.Create(list);
         }
 
         public TodoListDTO GetTodoList(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+                throw new Exception("id of todolist is null");
+            var list = Database.TodoLists.Get(id.Value);
+            if (list == null)
+                throw new Exception("List wasn't found");
+            return new TodoListDTO { Name = list.Name, Description = list.Description };
         }
 
         public IEnumerable<TodoListDTO> GetTodoLists()
@@ -38,17 +51,28 @@ namespace TODOList.BLL.Services
 
         public void UpdateTodoList(TodoListDTO listDTO)
         {
-            throw new NotImplementedException();
+            if (listDTO == null)
+                throw new Exception("TodoList == null");
+            TodoList list = new TodoList
+            {
+                Id = listDTO.Id,
+                UserId = listDTO.UserId,
+                Name = listDTO.Name,
+                Description = listDTO.Description
+            };
+            Database.TodoLists.Update(list);
         }
 
         public void DelTodoList(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+                throw new Exception("TodoList id is null");
+            Database.TodoLists.Delete(id.Value);
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Database.Dispose();
         }
 
     }

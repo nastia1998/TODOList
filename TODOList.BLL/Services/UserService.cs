@@ -22,12 +22,25 @@ namespace TODOList.BLL.Services
 
         public void MakeUser(UserDTO userDTO)
         {
-            throw new NotImplementedException();
+            if (userDTO == null)
+                throw new Exception("User equals null");
+            User user = new User
+            {
+                Login = userDTO.Login,
+                Password = userDTO.Password
+            };
+            Database.Users.Create(user);
+            Database.Save();
         }
 
         public UserDTO GetUser(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+                throw new Exception("id of User is null");
+            var user = Database.Users.Get(id.Value);
+            if (user == null)
+                throw new Exception("The user wasn't found");
+            return new UserDTO { Login = user.Login, Password = user.Password };
         }
 
         public IEnumerable<UserDTO> GetUsers()
@@ -38,17 +51,27 @@ namespace TODOList.BLL.Services
 
         public void UpdateUser(UserDTO userDTO)
         {
-            throw new NotImplementedException();
+            if (userDTO == null)
+                throw new Exception("User equals null");
+            User user = new User
+            {
+                Id = userDTO.Id,
+                Login = userDTO.Login,
+                Password = userDTO.Password
+            };
+            Database.Users.Update(user);
         }
 
         public void DelUser(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+                throw new Exception("User id is null");
+            Database.Users.Delete(id.Value);
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Database.Dispose();
         }
     }
 }
