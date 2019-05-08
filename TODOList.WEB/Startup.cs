@@ -10,7 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TODOList.BLL.Interfaces;
+using TODOList.BLL.Services;
 using TODOList.DAL.EF;
+using TODOList.DAL.Repositories;
 
 namespace TODOList.WEB
 {
@@ -30,6 +33,12 @@ namespace TODOList.WEB
 
             services.AddDbContext<TODOContext>(options =>
             options.UseSqlServer(connection));
+
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ITodoListService, TodoListService>();
+            services.AddTransient<ITaskService, TaskService>();
+            services.AddTransient<IStepService, StepService>();
+            services.AddTransient<IUnitOfWork, EFUnitOfWork>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

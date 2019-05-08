@@ -17,10 +17,10 @@ namespace TODOList.DAL.Repositories
         private StepRepository stepRepository;
         private UserRepository userRepository;
 
-        //public EFUnitOfWork()
-        //{
-        //    db = new TODOContext();
-        //}
+        public EFUnitOfWork(TODOContext context)
+        {
+            db = context;
+        }
 
         public IRepository<TodoList> TodoLists
         {

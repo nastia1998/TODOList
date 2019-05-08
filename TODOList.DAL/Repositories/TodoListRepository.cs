@@ -15,7 +15,7 @@ namespace TODOList.DAL.Repositories
 
         public TodoListRepository(TODOContext context)
         {
-            this.db = context;
+            db = context;
         }
 
         public IEnumerable<TodoList> GetAll()
