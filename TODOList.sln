@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TODOList.WEB", "TODOList\TODOList.WEB.csproj", "{1723AC6F-AB6A-490B-AA6B-771D281913EB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TODOList.DAL", "TODOList.DAL\TODOList.DAL.csproj", "{B1E0B66C-18A9-4B95-A4CA-9597CE6BD02C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TODOList.BLL", "TODOList.BLL\TODOList.BLL.csproj", "{65315EE4-D6C6-4EA3-8055-24520FEBC5A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TODOList.WEB", "TODOList.WEB\TODOList.WEB.csproj", "{A22A9845-AE6C-4600-BDB4-F70825303883}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1723AC6F-AB6A-490B-AA6B-771D281913EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1723AC6F-AB6A-490B-AA6B-771D281913EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1723AC6F-AB6A-490B-AA6B-771D281913EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1723AC6F-AB6A-490B-AA6B-771D281913EB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B1E0B66C-18A9-4B95-A4CA-9597CE6BD02C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B1E0B66C-18A9-4B95-A4CA-9597CE6BD02C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1E0B66C-18A9-4B95-A4CA-9597CE6BD02C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{65315EE4-D6C6-4EA3-8055-24520FEBC5A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65315EE4-D6C6-4EA3-8055-24520FEBC5A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65315EE4-D6C6-4EA3-8055-24520FEBC5A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A22A9845-AE6C-4600-BDB4-F70825303883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A22A9845-AE6C-4600-BDB4-F70825303883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A22A9845-AE6C-4600-BDB4-F70825303883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A22A9845-AE6C-4600-BDB4-F70825303883}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
