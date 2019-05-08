@@ -60,6 +60,7 @@ namespace TODOList.BLL.Services
                 Password = userDTO.Password
             };
             Database.Users.Update(user);
+            Database.Save();
         }
 
         public void DelUser(int? id)
@@ -67,6 +68,7 @@ namespace TODOList.BLL.Services
             if (id == null)
                 throw new Exception("User id is null");
             Database.Users.Delete(id.Value);
+            Database.Save();
         }
 
         public void Dispose()

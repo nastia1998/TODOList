@@ -15,6 +15,8 @@ namespace TODOList.BLL.DTO
         public DateTime DateCompletion { get; set; }
         public DateTime DateReminder { get; set; }
 
+        public string Name { get; set; }
+
         public int TodoListId { get; set; }
 
     }

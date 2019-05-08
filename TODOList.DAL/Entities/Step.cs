@@ -17,5 +17,7 @@ namespace TODOList.DAL.Entities
 
         [ForeignKey("TaskId")]
         public Task Task { get; set; }
+
+        public string Name { get; set; }
     }
 }

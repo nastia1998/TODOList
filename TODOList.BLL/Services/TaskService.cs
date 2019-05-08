@@ -23,12 +23,26 @@ namespace TODOList.BLL.Services
 
         public void MakeTask(TaskDTO taskDTO)
         {
-            throw new NotImplementedException();
+            if (taskDTO == null)
+                throw new Exception("Task equals null");
+            Task task = new Task
+            {
+                TodoListId = taskDTO.TodoListId,
+                DateCompletion = taskDTO.DateCompletion,
+                DateReminder = taskDTO.DateReminder
+            };
+            Database.Tasks.Create(task);
+            Database.Save();
         }
 
         public TaskDTO GetTask(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+                throw new Exception("id of Task is null");
+            var task = Database.Tasks.Get(id.Value);
+            if (task == null)
+                throw new Exception("The task wasn't found");
+            return new TaskDTO { Name = task.Name, DateCompletion = task.DateCompletion, DateReminder = task.DateReminder };
         }
 
         public IEnumerable<TaskDTO> GetTasks()
@@ -39,17 +53,30 @@ namespace TODOList.BLL.Services
 
         public void UpdateTask(TaskDTO taskDTO)
         {
-            throw new NotImplementedException();
+            if (taskDTO == null)
+                throw new Exception("Task == null");
+            Task task = new Task
+            {
+                Id = taskDTO.Id,
+                TodoListId = taskDTO.TodoListId,
+                Name = taskDTO.Name,
+                DateCompletion = taskDTO.DateCompletion,
+                DateReminder = taskDTO.DateReminder
+            };
+            Database.Tasks.Update(task);
         }
 
         public void DelTask(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+                throw new Exception("Task id is null");
+            Database.Tasks.Delete(id.Value);
+            Database.Save();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Database.Dispose();
         }
 
     }

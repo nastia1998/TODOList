@@ -20,5 +20,10 @@ namespace TODOList.DAL.EF
         {
             Database.EnsureCreated();
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+        }
     }
 }

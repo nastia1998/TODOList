@@ -19,6 +19,8 @@ namespace TODOList.DAL.Entities
         [ForeignKey("TodoListId")]
         public TodoList TodoList { get; set; }
 
+        public string Name { get; set; }
+
         public ICollection<Step> Steps { get; set; }
     }
 }

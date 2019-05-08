@@ -68,6 +68,7 @@ namespace TODOList.BLL.Services
             if (id == null)
                 throw new Exception("TodoList id is null");
             Database.TodoLists.Delete(id.Value);
+            Database.Save();
         }
 
         public void Dispose()
