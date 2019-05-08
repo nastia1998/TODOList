@@ -32,7 +32,7 @@ namespace TODOList.WEB
             string connection = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<TODOContext>(options =>
-            options.UseSqlServer(connection));
+            options.UseSqlServer(connection, b => b.MigrationsAssembly("TODOList.WEB")));
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITodoListService, TodoListService>();
