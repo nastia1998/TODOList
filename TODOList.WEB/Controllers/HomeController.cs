@@ -3,27 +3,68 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TODOList.BLL.DTO;
+using TODOList.BLL.Interfaces;
 using TODOList.WEB.Models;
 
 namespace TODOList.WEB.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+
+        ITodoListService todoListService;
+
+        public HomeController(ITodoListService serv)
         {
-            return View();
+            todoListService = serv;
         }
 
-        public IActionResult Privacy()
+        public ActionResult Index()
         {
-            return View();
+            IEnumerable<TodoListDTO> listDTOs = todoListService.GetTodoLists();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TodoListDTO, TodoListViewModel>()).CreateMapper();
+            var lists = mapper.Map<IEnumerable<TodoListDTO>, List<TodoListViewModel>>(listDTOs);
+            return View(lists);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public ActionResult MakeTodoList(int? id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            try
+            {
+                TodoListDTO listDTO = todoListService.GetTodoList(id);
+                var list = new TodoListViewModel { Name = listDTO.Name, Description = listDTO.Description };
+                return View(list);
+            }
+            catch(Exception ex)
+            {
+                return Content(ex.Message);
+            }
         }
+
+        [HttpPost]
+        public ActionResult MakeTodoList(TodoListViewModel list)
+        {
+            try
+            {
+                var listDTO = new TodoListDTO { Name = list.Name, Description = list.Description };
+                todoListService.MakeTodoList(listDTO);
+                return Content("<h2>Todo list успешно добавлен!</h2>");
+            }
+            catch (Exception ex)
+            {
+                //ModelState.AddModelError(ex.Property, ex.Message);
+                Content(ex.Message);
+            }
+            return View(list);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            todoListService.Dispose();
+            base.Dispose(disposing);
+        }
+
     }
 }
