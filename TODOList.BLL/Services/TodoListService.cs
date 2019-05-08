@@ -31,6 +31,7 @@ namespace TODOList.BLL.Services
                 Description = listDTO.Description
             };
             Database.TodoLists.Create(list);
+            Database.Save();
         }
 
         public TodoListDTO GetTodoList(int? id)
@@ -61,6 +62,7 @@ namespace TODOList.BLL.Services
                 Description = listDTO.Description
             };
             Database.TodoLists.Update(list);
+            Database.Save();
         }
 
         public void DelTodoList(int? id)

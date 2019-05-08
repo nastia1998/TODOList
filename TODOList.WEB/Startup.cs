@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TODOList.DAL.EF;
 
 namespace TODOList.WEB
 {
@@ -26,7 +28,8 @@ namespace TODOList.WEB
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<TODOContext>
+            services.AddDbContext<TODOContext>(options =>
+            options.UseSqlServer(connection));
 
             services.Configure<CookiePolicyOptions>(options =>
             {

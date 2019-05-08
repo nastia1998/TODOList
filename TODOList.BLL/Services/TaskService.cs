@@ -64,6 +64,7 @@ namespace TODOList.BLL.Services
                 DateReminder = taskDTO.DateReminder
             };
             Database.Tasks.Update(task);
+            Database.Save();
         }
 
         public void DelTask(int? id)

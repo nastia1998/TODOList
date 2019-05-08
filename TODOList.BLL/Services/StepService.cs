@@ -52,17 +52,30 @@ namespace TODOList.BLL.Services
 
         public void UpdateStep(StepDTO stepDTO)
         {
-            throw new NotImplementedException();
+            if (stepDTO == null)
+                throw new Exception("Step == null");
+            Step step = new Step
+            {
+                Id = stepDTO.Id,
+                Name = stepDTO.Name,
+                TaskId = stepDTO.TaskId,
+                IsDone = stepDTO.IsDone
+            };
+            Database.Steps.Update(step);
+            Database.Save();
         }
 
         public void DelStep(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+                throw new Exception("Step id is null");
+            Database.Steps.Delete(id.Value);
+            Database.Save();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Database.Dispose();
         }
     }
 }
