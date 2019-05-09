@@ -12,8 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TODOList.BLL.Interfaces;
 using TODOList.BLL.Services;
-using TODOList.DAL.EF;
-using TODOList.DAL.Repositories;
+//using TODOList.DAL.EF;
+//using TODOList.DAL.Repositories;
 
 namespace TODOList.WEB
 {
@@ -29,16 +29,16 @@ namespace TODOList.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connection = Configuration.GetConnectionString("DefaultConnection");
+            //string connection = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<TODOContext>(options =>
-            options.UseSqlServer(connection, b => b.MigrationsAssembly("TODOList.WEB")));
+            //services.AddDbContext<IUnitOfWork>(options =>
+            //options.UseSqlServer(connection, b => b.MigrationsAssembly("TODOList.WEB")));
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITodoListService, TodoListService>();
             services.AddTransient<ITaskService, TaskService>();
             services.AddTransient<IStepService, StepService>();
-            services.AddTransient<IUnitOfWork, EFUnitOfWork>();
+            //services.AddTransient<IUnitOfWork, EFUnitOfWork>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

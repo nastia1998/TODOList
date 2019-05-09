@@ -6,19 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using TODOList.BLL.DTO;
 using TODOList.BLL.Interfaces;
-using TODOList.DAL.EF;
+using TODOList.DAL;
 using TODOList.DAL.Entities;
 
 namespace TODOList.BLL.Services
 {
     public class UserService : IUserService
     {
-        IUnitOfWork Database { get; set; }
-
-        public UserService(IUnitOfWork uow)
+        public UserService()
         {
-            Database = uow;
+            Context = new Context();
         }
+
+        Context Context { get; set; }
 
         public void MakeUser(UserDTO userDTO)
         {
@@ -29,15 +29,15 @@ namespace TODOList.BLL.Services
                 Login = userDTO.Login,
                 Password = userDTO.Password
             };
-            Database.Users.Create(user);
-            Database.Save();
+            Context.Users.Add(user);
+            Context.SaveChanges();
         }
 
         public UserDTO GetUser(int? id)
         {
             if (id == null)
                 throw new Exception("id of User is null");
-            var user = Database.Users.Get(id.Value);
+            var user = Context.Users.Find(id.Value);
             if (user == null)
                 throw new Exception("The user wasn't found");
             return new UserDTO { Login = user.Login, Password = user.Password };
@@ -46,7 +46,7 @@ namespace TODOList.BLL.Services
         public IEnumerable<UserDTO> GetUsers()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<User>, List<UserDTO>>(Database.Users.GetAll());
+            return mapper.Map<IEnumerable<User>, List<UserDTO>>(Context.Users.ToList());
         }
 
         public void UpdateUser(UserDTO userDTO)
@@ -59,21 +59,22 @@ namespace TODOList.BLL.Services
                 Login = userDTO.Login,
                 Password = userDTO.Password
             };
-            Database.Users.Update(user);
-            Database.Save();
+            Context.Users.Update(user);
+            Context.SaveChanges();
         }
 
         public void DelUser(int? id)
         {
             if (id == null)
                 throw new Exception("User id is null");
-            Database.Users.Delete(id.Value);
-            Database.Save();
+            var user = Context.Users.Find(id);
+            Context.Users.Remove(user);
+            Context.SaveChanges();
         }
 
         public void Dispose()
         {
-            Database.Dispose();
+            Context.Dispose();
         }
     }
 }

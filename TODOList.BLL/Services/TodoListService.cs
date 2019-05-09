@@ -6,19 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using TODOList.BLL.DTO;
 using TODOList.BLL.Interfaces;
-using TODOList.DAL.EF;
+using TODOList.DAL;
 using TODOList.DAL.Entities;
 
 namespace TODOList.BLL.Services
 {
     public class TodoListService : ITodoListService
     {
-        IUnitOfWork Database { get; set; }
-
-        public TodoListService(IUnitOfWork uow)
+        public TodoListService()
         {
-            Database = uow;
+            Context = new Context();
         }
+
+        Context Context { get; set; }
 
         public void MakeTodoList(TodoListDTO listDTO)
         {
@@ -30,15 +30,15 @@ namespace TODOList.BLL.Services
                 Name = listDTO.Name,
                 Description = listDTO.Description
             };
-            Database.TodoLists.Create(list);
-            Database.Save();
+            Context.TodoLists.Add(list);
+            Context.SaveChanges();
         }
 
         public TodoListDTO GetTodoList(int? id)
         {
             if (id == null)
                 throw new Exception("id of todolist is null");
-            var list = Database.TodoLists.Get(id.Value);
+            var list = Context.TodoLists.Find(id.Value);
             if (list == null)
                 throw new Exception("List wasn't found");
             return new TodoListDTO { Name = list.Name, Description = list.Description };
@@ -47,7 +47,7 @@ namespace TODOList.BLL.Services
         public IEnumerable<TodoListDTO> GetTodoLists()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TodoList, TodoListDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<TodoList>, List<TodoListDTO>>(Database.TodoLists.GetAll());
+            return mapper.Map<IEnumerable<TodoList>, List<TodoListDTO>>(Context.TodoLists.ToList());
         }
 
         public void UpdateTodoList(TodoListDTO listDTO)
@@ -61,21 +61,22 @@ namespace TODOList.BLL.Services
                 Name = listDTO.Name,
                 Description = listDTO.Description
             };
-            Database.TodoLists.Update(list);
-            Database.Save();
+            Context.TodoLists.Update(list);
+            Context.SaveChanges();
         }
 
         public void DelTodoList(int? id)
         {
             if (id == null)
                 throw new Exception("TodoList id is null");
-            Database.TodoLists.Delete(id.Value);
-            Database.Save();
+            var list = Context.TodoLists.Find(id);
+            Context.TodoLists.Remove(list);
+            Context.SaveChanges();
         }
 
         public void Dispose()
         {
-            Database.Dispose();
+            Context.Dispose();
         }
 
     }

@@ -6,19 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using TODOList.BLL.DTO;
 using TODOList.BLL.Interfaces;
-using TODOList.DAL.EF;
+using TODOList.DAL;
 using TODOList.DAL.Entities;
 
 namespace TODOList.BLL.Services
 {
     public class StepService : IStepService
     {
-        IUnitOfWork Database { get; set; }
-
-        public StepService(IUnitOfWork uow)
+        public StepService()
         {
-            Database = uow;
+            Context = new Context();
         }
+
+        Context Context { get; set; }
 
         public void MakeStep(StepDTO stepDTO)
         {
@@ -30,15 +30,15 @@ namespace TODOList.BLL.Services
                 Name = stepDTO.Name,
                 IsDone = stepDTO.IsDone
             };
-            Database.Steps.Create(step);
-            Database.Save();
+            Context.Steps.Add(step);
+            Context.SaveChanges();
         }
 
         public StepDTO GetStep(int? id)
         {
             if (id == null)
                 throw new Exception("Id of step is null");
-            var step = Database.Steps.Get(id.Value);
+            var step = Context.Steps.Find(id.Value);
             if (step == null)
                 throw new Exception("Step wasn't found");
             return new StepDTO { Name = step.Name, IsDone = step.IsDone };
@@ -47,7 +47,7 @@ namespace TODOList.BLL.Services
         public IEnumerable<StepDTO> GetSteps()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Step, StepDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Step>, List<StepDTO>>(Database.Steps.GetAll());
+            return mapper.Map<IEnumerable<Step>, List<StepDTO>>(Context.Steps.ToList());
         }
 
         public void UpdateStep(StepDTO stepDTO)
@@ -61,21 +61,22 @@ namespace TODOList.BLL.Services
                 TaskId = stepDTO.TaskId,
                 IsDone = stepDTO.IsDone
             };
-            Database.Steps.Update(step);
-            Database.Save();
+            Context.Steps.Update(step);
+            Context.SaveChanges();
         }
 
         public void DelStep(int? id)
         {
             if (id == null)
                 throw new Exception("Step id is null");
-            Database.Steps.Delete(id.Value);
-            Database.Save();
+            var step = Context.Steps.Find(id);
+            Context.Steps.Remove(step);
+            Context.SaveChanges();
         }
 
         public void Dispose()
         {
-            Database.Dispose();
+            Context.Dispose();
         }
     }
 }

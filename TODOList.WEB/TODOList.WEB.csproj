@@ -19,9 +19,6 @@
     <Reference Include="TODOList.BLL">
       <HintPath>..\TODOList.BLL\bin\Debug\TODOList.BLL.dll</HintPath>
     </Reference>
-    <Reference Include="TODOList.DAL">
-      <HintPath>..\TODOList.DAL\bin\Debug\TODOList.DAL.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
