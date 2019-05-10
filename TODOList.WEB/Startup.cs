@@ -34,10 +34,10 @@ namespace TODOList.WEB
             //services.AddDbContext<IUnitOfWork>(options =>
             //options.UseSqlServer(connection, b => b.MigrationsAssembly("TODOList.WEB")));
 
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<ITodoListService, TodoListService>();
-            services.AddTransient<ITaskService, TaskService>();
-            services.AddTransient<IStepService, StepService>();
+            services.AddTransient<UserService>();
+            services.AddTransient<TodoListService>();
+            services.AddTransient<TaskService>();
+            services.AddTransient<StepService>();
             //services.AddTransient<IUnitOfWork, EFUnitOfWork>();
 
             services.Configure<CookiePolicyOptions>(options =>
