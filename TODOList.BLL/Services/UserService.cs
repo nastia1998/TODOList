@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using TODOList.DAL.Entities;
 
 namespace TODOList.BLL.Services
 {
-    public class UserService : IUserService
+    public class UserService : IService<UserDTO>
     {
         public UserService()
         {
@@ -20,61 +21,52 @@ namespace TODOList.BLL.Services
 
         Context Context { get; set; }
 
-        public void MakeUser(UserDTO userDTO)
+        async public Task<UserDTO> Create(UserDTO userDTO)
         {
-            if (userDTO == null)
-                throw new Exception("User equals null");
-            User user = new User
-            {
-                Login = userDTO.Login,
-                Password = userDTO.Password
-            };
-            Context.Users.Add(user);
-            Context.SaveChanges();
-        }
+            var user = await Context.Users.AddAsync(new User {Login = userDTO.Login, Password = userDTO.Password });
+            var res = await Context.SaveChangesAsync();
 
-        public UserDTO GetUser(int? id)
-        {
-            if (id == null)
-                throw new Exception("id of User is null");
-            var user = Context.Users.Find(id.Value);
-            if (user == null)
-                throw new Exception("The user wasn't found");
-            return new UserDTO { Login = user.Login, Password = user.Password };
-        }
-
-        public IEnumerable<UserDTO> GetUsers()
-        {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
+            return res > 0 ? mapper.Map<User, UserDTO>(user.Entity) : null;
+        }
+
+        async public Task<UserDTO> Get(int id)
+        {
+            var user = await Context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return user == null ? null : new UserDTO
+            {
+                Id = user.Id,
+                Login = user.Login,
+                Password = user.Password
+            };
+        }
+
+        public IEnumerable<UserDTO> GetAll()
+        {
+            var mapper =  new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<User>, List<UserDTO>>(Context.Users.ToList());
         }
 
-        public void UpdateUser(UserDTO userDTO)
+        async public Task<int> Update(int id, UserDTO userDTO)
         {
-            if (userDTO == null)
-                throw new Exception("User equals null");
-            User user = new User
-            {
-                Id = userDTO.Id,
-                Login = userDTO.Login,
-                Password = userDTO.Password
-            };
-            Context.Users.Update(user);
-            Context.SaveChanges();
+            var user = await Context.Users.FindAsync(id);
+            user.Login = userDTO.Login;
+            user.Password = userDTO.Password;
+            return await Context.SaveChangesAsync();
         }
 
-        public void DelUser(int? id)
+        async public Task<UserDTO> Delete(int id)
         {
-            if (id == null)
-                throw new Exception("User id is null");
-            var user = Context.Users.Find(id);
+            var user = await Context.Users.FindAsync(id);
+            if (user == null)
+                return null;
             Context.Users.Remove(user);
-            Context.SaveChanges();
+            int res = await Context.SaveChangesAsync();
+
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
+            return res > 0 ? mapper.Map<User, UserDTO>(user) : null;
+
         }
 
-        public void Dispose()
-        {
-            Context.Dispose();
-        }
     }
 }
