@@ -30,8 +30,6 @@ namespace TODOList.WEB.Controllers
         public async Task<UserDTO> Get(int id)
         {
             var user = await this.userService.Get(id);
-            user.Login = "";
-            user.Password = "";
             return user;
         }
 
