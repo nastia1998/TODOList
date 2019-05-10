@@ -11,73 +11,57 @@ using Task = TODOList.DAL.Entities.Task;
 
 namespace TODOList.BLL.Services
 {
-    public class TaskService : ITaskService
+    public class TaskService : IService<TaskDTO>
     {
+        Context Context { get; set; }
+
         public TaskService()
         {
             Context = new Context();
         }
 
-        Context Context { get; set; }
-
-        public void MakeTask(TaskDTO taskDTO)
+        async public Task<TaskDTO> Create(TaskDTO taskDTO)
         {
-            if (taskDTO == null)
-                throw new Exception("Task equals null");
-            Task task = new Task
-            {
-                TodoListId = taskDTO.TodoListId,
-                DateCompletion = taskDTO.DateCompletion,
-                DateReminder = taskDTO.DateReminder
-            };
-            Context.Tasks.Add(task);
-            Context.SaveChanges();
+            var task = await Context.Tasks.AddAsync(new Task { TodoListId = taskDTO.TodoListId, Name = taskDTO.Name, DateCompletion = taskDTO.DateCompletion, DateReminder = taskDTO.DateReminder });
+            var res = await Context.SaveChangesAsync();
+
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Task, TaskDTO>()).CreateMapper();
+            return res > 0 ? mapper.Map<Task, TaskDTO>(task.Entity) : null;
         }
 
-        public TaskDTO GetTask(int? id)
+        async public Task<TaskDTO> Get(int id)
         {
-            if (id == null)
-                throw new Exception("id of Task is null");
-            var task = Context.Tasks.Find(id.Value);
-            if (task == null)
-                throw new Exception("The task wasn't found");
-            return new TaskDTO { Name = task.Name, DateCompletion = task.DateCompletion, DateReminder = task.DateReminder };
+            var task = await Context.Tasks.FindAsync(id);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Task, TaskDTO>()).CreateMapper();
+            return task != null ? mapper.Map<Task, TaskDTO>(task) : null;
         }
 
-        public IEnumerable<TaskDTO> GetTasks()
+        public IEnumerable<TaskDTO> GetAll()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Task, TaskDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<Task>, List<TaskDTO>>(Context.Tasks.ToList());
         }
 
-        public void UpdateTask(TaskDTO taskDTO)
+        async public Task<int> Update(int id, TaskDTO taskDTO)
         {
-            if (taskDTO == null)
-                throw new Exception("Task == null");
-            Task task = new Task
-            {
-                Id = taskDTO.Id,
-                TodoListId = taskDTO.TodoListId,
-                Name = taskDTO.Name,
-                DateCompletion = taskDTO.DateCompletion,
-                DateReminder = taskDTO.DateReminder
-            };
-            Context.Tasks.Update(task);
-            Context.SaveChanges();
+            var task = await Context.Tasks.FindAsync(id);
+            task.TodoListId = taskDTO.TodoListId;
+            task.Name = taskDTO.Name;
+            task.DateCompletion = taskDTO.DateCompletion;
+            task.DateReminder = taskDTO.DateReminder;
+            return await Context.SaveChangesAsync();
         }
 
-        public void DelTask(int? id)
+        async public Task<TaskDTO> Delete(int id)
         {
-            if (id == null)
-                throw new Exception("Task id is null");
-            var task = Context.Tasks.Find(id);
+            var task = await Context.Tasks.FindAsync(id);
+            if (task == null)
+                return null;
             Context.Tasks.Remove(task);
-            Context.SaveChanges();
-        }
+            int res = await Context.SaveChangesAsync();
 
-        public void Dispose()
-        {
-            Context.Dispose();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Task, TaskDTO>()).CreateMapper();
+            return res > 0 ? mapper.Map<Task, TaskDTO>(task) : null;
         }
 
     }
