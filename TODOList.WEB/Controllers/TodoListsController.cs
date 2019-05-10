@@ -8,7 +8,9 @@ using TODOList.BLL.Services;
 
 namespace TODOList.WEB.Controllers
 {
-    public class TodoListsController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class TodoListsController : ControllerBase
     {
         private readonly TodoListService listService;
 
