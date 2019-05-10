@@ -14,12 +14,12 @@ namespace TODOList.BLL.Services
 {
     public class UserService : IService<UserDTO>
     {
+        Context Context { get; set; }
+
         public UserService()
         {
             Context = new Context();
         }
-
-        Context Context { get; set; }
 
         async public Task<UserDTO> Create(UserDTO userDTO)
         {
@@ -32,13 +32,9 @@ namespace TODOList.BLL.Services
 
         async public Task<UserDTO> Get(int id)
         {
-            var user = await Context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            return user == null ? null : new UserDTO
-            {
-                Id = user.Id,
-                Login = user.Login,
-                Password = user.Password
-            };
+            var user = await Context.Users.FindAsync(id);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
+            return user != null ? mapper.Map<User, UserDTO>(user) : null;
         }
 
         public IEnumerable<UserDTO> GetAll()

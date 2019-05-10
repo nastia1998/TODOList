@@ -11,72 +11,56 @@ using TODOList.DAL.Entities;
 
 namespace TODOList.BLL.Services
 {
-    public class TodoListService : ITodoListService
+    public class TodoListService : IService<TodoListDTO>
     {
+        Context Context { get; set; }
+
         public TodoListService()
         {
             Context = new Context();
         }
 
-        Context Context { get; set; }
-
-        public void MakeTodoList(TodoListDTO listDTO)
+        async public Task<TodoListDTO> Create(TodoListDTO listDTO)
         {
-            if (listDTO == null)
-                throw new Exception("List equals null");
-            TodoList list = new TodoList
-            {
-                UserId = listDTO.UserId,
-                Name = listDTO.Name,
-                Description = listDTO.Description
-            };
-            Context.TodoLists.Add(list);
-            Context.SaveChanges();
+            var list = await Context.TodoLists.AddAsync(new TodoList { UserId = listDTO.UserId, Name = listDTO.Name, Description = listDTO.Description });
+            var res = await Context.SaveChangesAsync();
+
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TodoList, TodoListDTO>()).CreateMapper();
+            return res > 0 ? mapper.Map<TodoList, TodoListDTO>(list.Entity) : null;
         }
 
-        public TodoListDTO GetTodoList(int? id)
+        async public Task<TodoListDTO> Get(int id)
         {
-            if (id == null)
-                throw new Exception("id of todolist is null");
-            var list = Context.TodoLists.Find(id.Value);
-            if (list == null)
-                throw new Exception("List wasn't found");
-            return new TodoListDTO { Name = list.Name, Description = list.Description };
+            var list = await Context.TodoLists.FindAsync(id);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TodoList, TodoListDTO>()).CreateMapper();
+            return list != null ? mapper.Map<TodoList, TodoListDTO>(list) : null;
         }
 
-        public IEnumerable<TodoListDTO> GetTodoLists()
+        public IEnumerable<TodoListDTO> GetAll()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TodoList, TodoListDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<TodoList>, List<TodoListDTO>>(Context.TodoLists.ToList());
         }
 
-        public void UpdateTodoList(TodoListDTO listDTO)
+        async public Task<int> Update(int id, TodoListDTO listDTO)
         {
-            if (listDTO == null)
-                throw new Exception("TodoList == null");
-            TodoList list = new TodoList
-            {
-                Id = listDTO.Id,
-                UserId = listDTO.UserId,
-                Name = listDTO.Name,
-                Description = listDTO.Description
-            };
-            Context.TodoLists.Update(list);
-            Context.SaveChanges();
+            var list = await Context.TodoLists.FindAsync(id);
+            list.UserId = listDTO.UserId;
+            list.Name = listDTO.Name;
+            list.Description = listDTO.Description;
+            return await Context.SaveChangesAsync();
         }
 
-        public void DelTodoList(int? id)
+        async public Task<TodoListDTO> Delete(int id)
         {
-            if (id == null)
-                throw new Exception("TodoList id is null");
-            var list = Context.TodoLists.Find(id);
+            var list = await Context.TodoLists.FindAsync(id);
+            if (list == null)
+                return null;
             Context.TodoLists.Remove(list);
-            Context.SaveChanges();
-        }
+            int res = await Context.SaveChangesAsync();
 
-        public void Dispose()
-        {
-            Context.Dispose();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TodoList, TodoListDTO>()).CreateMapper();
+            return res > 0 ? mapper.Map<TodoList, TodoListDTO>(list) : null;
         }
 
     }
