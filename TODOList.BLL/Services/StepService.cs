@@ -11,72 +11,56 @@ using TODOList.DAL.Entities;
 
 namespace TODOList.BLL.Services
 {
-    public class StepService : IStepService
+    public class StepService : IService<StepDTO>
     {
+
+        Context Context { get; set; }
+
         public StepService()
         {
             Context = new Context();
         }
 
-        Context Context { get; set; }
-
-        public void MakeStep(StepDTO stepDTO)
+        async public Task<StepDTO> Create(StepDTO stepDTO)
         {
-            if (stepDTO == null)
-                throw new Exception("Step == null");
-            Step step = new Step
-            {
-                TaskId = stepDTO.TaskId,
-                Name = stepDTO.Name,
-                IsDone = stepDTO.IsDone
-            };
-            Context.Steps.Add(step);
-            Context.SaveChanges();
+            var step = await Context.Steps.AddAsync(new Step { TaskId = stepDTO.TaskId, Name = stepDTO.Name, IsDone = stepDTO.IsDone });
+            var res = await Context.SaveChangesAsync();
+
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Step, StepDTO>()).CreateMapper();
+            return res > 0 ? mapper.Map<Step, StepDTO>(step.Entity) : null;
         }
 
-        public StepDTO GetStep(int? id)
+        async public Task<StepDTO> Get(int id)
         {
-            if (id == null)
-                throw new Exception("Id of step is null");
-            var step = Context.Steps.Find(id.Value);
-            if (step == null)
-                throw new Exception("Step wasn't found");
-            return new StepDTO { Name = step.Name, IsDone = step.IsDone };
+            var step = await Context.Steps.FindAsync(id);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Step, StepDTO>()).CreateMapper();
+            return step != null ? mapper.Map<Step, StepDTO>(step) : null;
         }
 
-        public IEnumerable<StepDTO> GetSteps()
+        public IEnumerable<StepDTO> GetAll()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Step, StepDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<Step>, List<StepDTO>>(Context.Steps.ToList());
         }
 
-        public void UpdateStep(StepDTO stepDTO)
+        async public Task<int> Update(int id, StepDTO stepDTO)
         {
-            if (stepDTO == null)
-                throw new Exception("Step == null");
-            Step step = new Step
-            {
-                Id = stepDTO.Id,
-                Name = stepDTO.Name,
-                TaskId = stepDTO.TaskId,
-                IsDone = stepDTO.IsDone
-            };
-            Context.Steps.Update(step);
-            Context.SaveChanges();
+            var step = await Context.Steps.FindAsync(id);
+            step.Name = stepDTO.Name;
+            step.IsDone = stepDTO.IsDone;
+            return await Context.SaveChangesAsync();
         }
 
-        public void DelStep(int? id)
+        async public Task<StepDTO> Delete(int id)
         {
-            if (id == null)
-                throw new Exception("Step id is null");
-            var step = Context.Steps.Find(id);
+            var step = await Context.Steps.FindAsync(id);
+            if (step == null)
+                return null;
             Context.Steps.Remove(step);
-            Context.SaveChanges();
-        }
+            int res = await Context.SaveChangesAsync();
 
-        public void Dispose()
-        {
-            Context.Dispose();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Step, StepDTO>()).CreateMapper();
+            return res > 0 ? mapper.Map<Step, StepDTO>(step) : null;
         }
     }
 }
