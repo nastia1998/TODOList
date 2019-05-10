@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TODOList.BLL.DTO;
 using TODOList.BLL.Services;
@@ -51,6 +52,5 @@ namespace TODOList.WEB.Controllers
         {
             return await userService.Delete(id);
         }
-
     }
 }
