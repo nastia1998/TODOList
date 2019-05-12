@@ -9,7 +9,7 @@ using TODOList.BLL.Services;
 
 namespace TODOList.WEB.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/todolists/{todoId}/[controller]")]
     [ApiController]
     public class TasksController : ControllerBase
     {
@@ -20,18 +20,25 @@ namespace TODOList.WEB.Controllers
             this.taskService = taskService;
         }
 
-        [HttpGet]
-        public IEnumerable<TaskDTO> Get()
-        {
-            var lists = taskService.GetAll();
-            return lists;
-        }
+        //[HttpGet]
+        //public IEnumerable<TaskDTO> Get()
+        //{
+        //    var tasks = taskService.GetAll();
+        //    return tasks;
+        //}
 
         [HttpGet("{id}")]
         public async Task<TaskDTO> Get(int id)
         {
             var task = await this.taskService.Get(id);
             return task;
+        }
+
+        [HttpGet]
+        public IEnumerable<TaskDTO> GetByTodoId(int todoId)
+        {
+            var tasks = this.taskService.GetAll(todoId);
+            return tasks;
         }
 
         [HttpPost]

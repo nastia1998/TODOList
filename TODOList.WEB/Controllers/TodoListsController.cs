@@ -32,7 +32,7 @@ namespace TODOList.WEB.Controllers
         {
             var list = await this.listService.Get(id);
             return list;
-        }
+        }        
 
         [HttpPost]
         public async Task<TodoListDTO> Add([FromBody] TodoListDTO list)

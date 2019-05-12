@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,13 @@ namespace TODOList.BLL.Services
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Task, TaskDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<Task>, List<TaskDTO>>(Context.Tasks.ToList());
+        }
+
+        public IEnumerable<TaskDTO> GetAll(int todoId)
+        {
+            var tasks = Context.Tasks.Where(a => a.TodoListId == todoId).ToList();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Task, TaskDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<Task>, List<TaskDTO>>(tasks.ToList());
         }
 
         async public Task<int> Update(int id, TaskDTO taskDTO)
