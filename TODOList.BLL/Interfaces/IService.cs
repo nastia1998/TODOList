@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace TODOList.BLL.Interfaces
 {
-    public interface IService<T>
+    interface IService
     {
-        Task<T> Create(T obj);
-        Task<T> Get(int id);
-        IEnumerable<T> GetAll();
-        Task<int> Update(int id, T obj);
-        Task<T> Delete(int id);
     }
 }
