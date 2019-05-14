@@ -16,11 +16,11 @@ namespace TODOList.DAL.Entities
         public DateTime DateCompletion { get; set; }
         public DateTime DateReminder { get; set; }
 
+        public bool IsDone { get; set; }
+
         public int TodoListId { get; set; }
 
         [ForeignKey("TodoListId")]
         public TodoList TodoList { get; set; }
-
-        public ICollection<Step> Steps { get; set; }
     }
 }

@@ -15,27 +15,27 @@ namespace TODOList.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
+                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("TODOList.DAL.Entities.Step", b =>
+            modelBuilder.Entity("TODOList.DAL.Entities.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("IsDone");
+                    b.Property<string>("Email");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Login");
 
-                    b.Property<int>("TaskId");
+                    b.Property<byte[]>("PasswordHash");
+
+                    b.Property<byte[]>("PasswordSalt");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskId");
-
-                    b.ToTable("Steps");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("TODOList.DAL.Entities.Task", b =>
@@ -47,6 +47,8 @@ namespace TODOList.DAL.Migrations
                     b.Property<DateTime>("DateCompletion");
 
                     b.Property<DateTime>("DateReminder");
+
+                    b.Property<bool>("IsDone");
 
                     b.Property<string>("Name");
 
@@ -78,29 +80,6 @@ namespace TODOList.DAL.Migrations
                     b.ToTable("TodoLists");
                 });
 
-            modelBuilder.Entity("TODOList.DAL.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Login");
-
-                    b.Property<string>("Password");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("TODOList.DAL.Entities.Step", b =>
-                {
-                    b.HasOne("TODOList.DAL.Entities.Task", "Task")
-                        .WithMany("Steps")
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("TODOList.DAL.Entities.Task", b =>
                 {
                     b.HasOne("TODOList.DAL.Entities.TodoList", "TodoList")
@@ -111,7 +90,7 @@ namespace TODOList.DAL.Migrations
 
             modelBuilder.Entity("TODOList.DAL.Entities.TodoList", b =>
                 {
-                    b.HasOne("TODOList.DAL.Entities.User", "User")
+                    b.HasOne("TODOList.DAL.Entities.AppUser", "User")
                         .WithMany("TodoLists")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -11,8 +11,7 @@ namespace TODOList.DAL
     {
         public DbSet<TodoList> TodoLists { get; set; }
         public DbSet<Task> Tasks { get; set; }
-        public DbSet<Step> Steps { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<AppUser> Users { get; set; }
 
         public Context()
         {
@@ -22,7 +21,8 @@ namespace TODOList.DAL
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var config = new ConfigurationBuilder()
-                .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
+                //.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
+                .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
             string connectionString = config.GetConnectionString("DefaultConnection");

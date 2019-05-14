@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TODOList.BLL.DTO;
@@ -9,7 +10,8 @@ using TODOList.BLL.Services;
 
 namespace TODOList.WEB.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
+    [Route("api/users/{userId}/[controller]")]
     [ApiController]
     public class TodoListsController : ControllerBase
     {
@@ -20,19 +22,26 @@ namespace TODOList.WEB.Controllers
             this.listService = listService;
         }
 
-        [HttpGet]
-        public IEnumerable<TodoListDTO> Get()
-        {
-            var lists = listService.GetAll();
-            return lists;
-        }
+        //[HttpGet]
+        //public IEnumerable<TodoListDTO> Get()
+        //{
+        //    var lists = listService.GetAll();
+        //    return lists;
+        //}
 
         [HttpGet("{id}")]
         public async Task<TodoListDTO> Get(int id)
         {
             var list = await this.listService.Get(id);
             return list;
-        }        
+        }
+
+        [HttpGet]
+        public IEnumerable<TodoListDTO> GetByUserId(int userId)
+        {
+            var lists = this.listService.GetAll(userId);
+            return lists;
+        }
 
         [HttpPost]
         public async Task<TodoListDTO> Add([FromBody] TodoListDTO list)

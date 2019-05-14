@@ -16,6 +16,6 @@ namespace TODOList.DAL.Entities
         public int UserId { get; set; }
 
         [ForeignKey("UserId")]
-        public User User { get; set; }
+        public AppUser User { get; set; }
     }
 }

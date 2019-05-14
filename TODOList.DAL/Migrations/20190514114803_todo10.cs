@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TODOList.DAL.Migrations
 {
-    public partial class TODO1 : Migration
+    public partial class todo10 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,9 @@ namespace TODOList.DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Login = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true)
+                    PasswordHash = table.Column<byte[]>(nullable: true),
+                    PasswordSalt = table.Column<byte[]>(nullable: true),
+                    Email = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,6 +54,7 @@ namespace TODOList.DAL.Migrations
                     Name = table.Column<string>(nullable: true),
                     DateCompletion = table.Column<DateTime>(nullable: false),
                     DateReminder = table.Column<DateTime>(nullable: false),
+                    IsDone = table.Column<bool>(nullable: false),
                     TodoListId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -64,32 +67,6 @@ namespace TODOList.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Steps",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    IsDone = table.Column<bool>(nullable: false),
-                    TaskId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Steps", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Steps_Tasks_TaskId",
-                        column: x => x.TaskId,
-                        principalTable: "Tasks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Steps_TaskId",
-                table: "Steps",
-                column: "TaskId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_TodoListId",
@@ -104,9 +81,6 @@ namespace TODOList.DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Steps");
-
             migrationBuilder.DropTable(
                 name: "Tasks");
 
