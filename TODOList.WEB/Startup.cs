@@ -44,6 +44,7 @@ namespace TODOList.WEB
             services.AddTransient<TodoListService>();
             services.AddTransient<TaskService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddTransient<EmailService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
