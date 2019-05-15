@@ -22,7 +22,7 @@ namespace TODOList.BLL.Services
             msg.From = new MailAddress("todo@gmail.com", "ABC");
             msg.To.Add(new MailAddress(email.EmailTo, "BCD"));
             msg.Subject = "Notification with ICS file as an Attachment";
-            msg.Body = email.Message;
+            msg.Body = email.Message;   
 
             StringBuilder str = new StringBuilder();
             str.AppendLine("BEGIN:VCALENDAR");

@@ -14,6 +14,6 @@ namespace TODOList.BLL.DTO
         public string Message { get; set; }
         public string DateStart { get; set; }
         public string DateEnd { get; set; }
-
+          
     }
 }
