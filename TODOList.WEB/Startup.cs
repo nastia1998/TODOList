@@ -48,14 +48,14 @@ namespace TODOList.WEB
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                builder =>
-                {
-                    builder.WithOrigins("http://localhost:3000/");
-                });
-            });
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy(MyAllowSpecificOrigins,
+            //    builder =>
+            //    {
+            //        builder.WithOrigins("http://localhost:3000/");
+            //    });
+            //});
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
