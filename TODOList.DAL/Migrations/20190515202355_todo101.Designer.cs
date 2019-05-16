@@ -10,8 +10,8 @@ using TODOList.DAL;
 namespace TODOList.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20190514114803_todo10")]
-    partial class todo10
+    [Migration("20190515202355_todo101")]
+    partial class todo101
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,11 +46,9 @@ namespace TODOList.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateCompletion");
+                    b.Property<DateTime>("DateEnd");
 
-                    b.Property<DateTime>("DateReminder");
-
-                    b.Property<bool>("IsDone");
+                    b.Property<DateTime>("DateStart");
 
                     b.Property<string>("Name");
 

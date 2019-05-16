@@ -50,6 +50,7 @@ namespace TODOList.WEB.Controllers
             {
                 Id = user.Id,
                 Login = user.Login,
+                Email = user.Email,
                 Token = tokenString
             });
         }

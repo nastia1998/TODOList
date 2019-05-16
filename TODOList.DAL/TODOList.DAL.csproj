@@ -144,12 +144,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.cs" />
+    <Compile Include="Entities\AppUser.cs" />
     <Compile Include="Entities\Task.cs" />
     <Compile Include="Entities\TodoList.cs" />
-    <Compile Include="Entities\AppUser.cs" />
-    <Compile Include="Migrations\20190514114803_todo10.cs" />
-    <Compile Include="Migrations\20190514114803_todo10.designer.cs">
-      <DependentUpon>20190514114803_todo10.cs</DependentUpon>
+    <Compile Include="Migrations\20190515202252_todo100.cs" />
+    <Compile Include="Migrations\20190515202252_todo100.designer.cs">
+      <DependentUpon>20190515202252_todo100.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20190515202355_todo101.cs" />
+    <Compile Include="Migrations\20190515202355_todo101.designer.cs">
+      <DependentUpon>20190515202355_todo101.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
