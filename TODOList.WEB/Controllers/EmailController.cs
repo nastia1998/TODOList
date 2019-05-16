@@ -24,7 +24,6 @@ namespace TODOList.WEB.Controllers
         [HttpPost]
         public IActionResult SendEmail([FromBody]EmailDTO email)//async Task<IActionResult> SendEmailAsync([FromBody]EmailDTO email)  
         {
-            //await _emailService.SendEmailAsync(email);
             _emailService.SendmailWithIcsAttachment(email);
             
             return Ok();
