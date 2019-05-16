@@ -42,6 +42,13 @@ namespace TODOList.BLL.Services
             return mapper.Map<IEnumerable<TodoList>, List<TodoListDTO>>(Context.TodoLists.ToList());
         }
 
+        public IEnumerable<TodoListDTO> GetAll(int userId)
+        {
+            var lists = Context.TodoLists.Where(x => x.UserId == userId).ToList();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TodoList, TodoListDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<TodoList>, List<TodoListDTO>>(lists);
+        }
+
         async public Task<int> Update(int id, TodoListDTO listDTO)
         {
             var list = await Context.TodoLists.FindAsync(id);

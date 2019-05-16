@@ -13,14 +13,12 @@ namespace TODOList.DAL.Entities
 
         public string Name { get; set; }
 
-        public DateTime DateCompletion { get; set; }
-        public DateTime DateReminder { get; set; }
+        public DateTime DateStart { get; set; }
+        public DateTime DateEnd { get; set; }
 
         public int TodoListId { get; set; }
 
         [ForeignKey("TodoListId")]
         public TodoList TodoList { get; set; }
-
-        public ICollection<Step> Steps { get; set; }
     }
 }

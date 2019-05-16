@@ -23,7 +23,9 @@ namespace TODOList.BLL.Services
 
         async public Task<TaskDTO> Create(TaskDTO taskDTO)
         {
-            var task = await Context.Tasks.AddAsync(new Task { TodoListId = taskDTO.TodoListId, Name = taskDTO.Name, DateCompletion = taskDTO.DateCompletion, DateReminder = taskDTO.DateReminder });
+            taskDTO.DateStart = taskDTO.DateStart.AddHours(3);
+            taskDTO.DateEnd = taskDTO.DateEnd.AddHours(3);
+            var task = await Context.Tasks.AddAsync(new Task { TodoListId = taskDTO.TodoListId, Name = taskDTO.Name, DateStart = taskDTO.DateStart, DateEnd = taskDTO.DateEnd });
             var res = await Context.SaveChangesAsync();
 
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Task, TaskDTO>()).CreateMapper();
@@ -55,8 +57,8 @@ namespace TODOList.BLL.Services
             var task = await Context.Tasks.FindAsync(id);
             task.TodoListId = taskDTO.TodoListId;
             task.Name = taskDTO.Name;
-            task.DateCompletion = taskDTO.DateCompletion;
-            task.DateReminder = taskDTO.DateReminder;
+            task.DateStart = taskDTO.DateStart;
+            task.DateEnd = taskDTO.DateEnd;
             return await Context.SaveChangesAsync();
         }
 
