@@ -18,10 +18,11 @@ namespace TODOList.DAL
             Database.EnsureCreated();
         }
 
+        public Context(DbContextOptions<Context> options) : base(options) { Database.EnsureCreated(); }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var config = new ConfigurationBuilder()
-                //.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();

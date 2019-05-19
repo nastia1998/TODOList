@@ -231,19 +231,18 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="TODOList.BLL">
+      <HintPath>..\TODOList.BLL\bin\Debug\TODOList.BLL.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.cs" />
     <Compile Include="Entities\AppUser.cs" />
     <Compile Include="Entities\Task.cs" />
     <Compile Include="Entities\TodoList.cs" />
-    <Compile Include="Migrations\20190515202252_todo100.cs" />
-    <Compile Include="Migrations\20190515202252_todo100.designer.cs">
-      <DependentUpon>20190515202252_todo100.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20190515202355_todo101.cs" />
-    <Compile Include="Migrations\20190515202355_todo101.designer.cs">
-      <DependentUpon>20190515202355_todo101.cs</DependentUpon>
+    <Compile Include="Migrations\20190518091428_todo789.cs" />
+    <Compile Include="Migrations\20190518091428_todo789.designer.cs">
+      <DependentUpon>20190518091428_todo789.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

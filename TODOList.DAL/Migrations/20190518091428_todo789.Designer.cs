@@ -10,8 +10,8 @@ using TODOList.DAL;
 namespace TODOList.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20190515202355_todo101")]
-    partial class todo101
+    [Migration("20190518091428_todo789")]
+    partial class todo789
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

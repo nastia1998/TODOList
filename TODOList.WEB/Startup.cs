@@ -46,16 +46,35 @@ namespace TODOList.WEB
             services.AddScoped<IUserService, UserService>();
             services.AddTransient<EmailService>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000")
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+
+                });
+            });
+            //services.AddCors(c =>
+            //{
+            //    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            //});
+            services.AddCors(o => o.AddPolicy("AllowOrigin", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }));
+
+            //services.AddCors(c =>
+            //{
+            //    c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:3000")
+            //                                                             .AllowCredentials());
+            //});
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy(MyAllowSpecificOrigins,
-            //    builder =>
-            //    {
-            //        builder.WithOrigins("http://localhost:3000/");
-            //    });
-            //});
+            
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -114,6 +133,9 @@ namespace TODOList.WEB
                 app.UseHsts();
             }
 
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            //app.UseCors("AllowOrigin");
+            //app.UseCors();
 
             app.UseSwagger();
 
@@ -123,8 +145,10 @@ namespace TODOList.WEB
             });
 
             app.UseHttpsRedirection();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            //app.UseCors(MyAllowSpecificOrigins);
 
+            //app.UseCors(options => options.AllowAnyOrigin());
+            //app.UseCors(options => options.WithOrigins("http://localhost:3000"));
             app.UseAuthentication();
 
             app.UseMvc();

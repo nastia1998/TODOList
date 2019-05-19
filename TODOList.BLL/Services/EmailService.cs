@@ -22,7 +22,7 @@ namespace TODOList.BLL.Services
             msg.From = new MailAddress("todo@gmail.com", "ABC");
             msg.To.Add(new MailAddress(email.EmailTo, "BCD"));
             msg.Subject = "Notification with ICS file as an Attachment";
-            msg.Body = email.Message;   
+            msg.Body = email.Message;
 
             StringBuilder str = new StringBuilder();
             str.AppendLine("BEGIN:VCALENDAR");
@@ -92,6 +92,21 @@ namespace TODOList.BLL.Services
             //    await client.SendAsync(emailMessage);
             //    await client.DisconnectAsync(true);
             //}
+
+            //var emailMessage = new MimeMessage();
+
+            //emailMessage.Cc.Add(new MailboxAddress("Администрация сайта", "nastial2211@yandex.by"));
+
+
+            //emailMessage.From.Add(new MailboxAddress("SenderName", email.EmailFrom));
+            //emailMessage.To.Add(new MailboxAddress("", email.EmailTo));
+            //emailMessage.Subject = "Рассылка";
+            //var builder = new BodyBuilder { TextBody = email.Message };
+
+            ////Fetch the attachments from db
+            ////considering one or more attachments
+            //builder.Attachments.Add()
+
         }
     }
 }

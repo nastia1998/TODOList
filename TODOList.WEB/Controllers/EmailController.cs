@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TODOList.BLL.DTO;
@@ -12,6 +13,7 @@ namespace TODOList.WEB.Controllers
 {
  
     [Route("api/[controller]")]
+    [EnableCors("AllowOrigin")]
     [ApiController]
     public class EmailController : ControllerBase
     {
